@@ -1,0 +1,135 @@
+---
+title: "Final Paper"
+author: "Jack Luby"
+date: "12/6/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(haven)
+library(plm)
+```
+
+```{r}
+mortality <- read_csv("data/us-countylevel-mortality/mort.csv") %>% 
+  filter(Category == "Forces of nature, war, and legal intervention") %>% 
+  select(Location, FIPS, Category, `Mortality Rate, 2010*`, `Mortality Rate, 2014*`) %>%
+  pivot_longer(c(`Mortality Rate, 2010*`, `Mortality Rate, 2014*`), names_to = "year", values_to = "mortality") %>% 
+  mutate(year = ifelse(year == "Mortality Rate, 2010*", 2010, 2014)) %>% 
+  filter(FIPS > 55)
+
+irs_2014 <- read_csv("data/14incyallnoagi.csv") %>% 
+  mutate(year = 2014)
+irs_2010 <- read_csv("data/10incyallnoagi.csv") %>% 
+  mutate(year = 2010)
+
+binded <- bind_rows(irs_2010, irs_2014) %>% 
+  mutate(FIPS = paste0(STATEFIPS, COUNTYFIPS)) %>% 
+  mutate(FIPS = as.numeric(FIPS)) %>% 
+  filter(COUNTYFIPS != "000")
+
+full_tbl <- left_join(binded, mortality, by = c("year", "FIPS")) %>% 
+  arrange(FIPS) %>%
+  mutate(wages_per_return = A00200/N00200)
+
+housing_density <- read_csv("data/population_density.csv", skip = 1) %>% 
+  select(`Target Geo Id2`, `Geographic area_1`, `Density per square mile of land area - Housing units`) %>% 
+  rename(FIPS = `Target Geo Id2`, county = `Geographic area_1`, housing_density = `Density per square mile of land area - Housing units`) %>% 
+  mutate(FIPS = as.numeric(FIPS)) %>% 
+  filter(FIPS > 55)
+
+new_full_tbl <- left_join(full_tbl, housing_density, by = "FIPS")
+
+write_rds(new_full_tbl, "data/full_table.rds")
+
+summary(lm(mortality ~ wages_per_return + housing_density, data = new_full_tbl))
+
+random_effects <- plm(log(mortality) ~ wages_per_return + housing_density, data = new_full_tbl, index = c("FIPS", "year", "STATE"), model = "random")
+```
+
+```{r}
+library(lfe)
+# Regression with no fixed effects
+no_effects <- felm(log(mortality) ~ wages_per_return + housing_density | 0 | 0 | FIPS, data=new_full_tbl, weights=new_full_tbl$N00200)
+summary(no_effects)
+
+# Regression with year fixed effects
+year_effects <- felm(log(mortality) ~ wages_per_return + housing_density | factor(year) | 0 | FIPS, data=new_full_tbl, weights=new_full_tbl$N00200)
+summary(year_effects)
+
+# Regression with year and cz fixed effects
+cz_effects <- felm(log(mortality) ~ wages_per_return | factor(year) + factor(STATE) | 0 | FIPS, data=new_full_tbl, weights=new_full_tbl$N00200)
+summary(cz_effects)
+```
+
+
+```{r, results = "asis"}
+library(stargazer)
+stargazer(random_effects, no_effects, year_effects, cz_effects)
+```
+
+
+
+
+```{r}
+# voting <- read_dta("additional_data/nov18pub.dat")
+```
+
+```{r}
+# state_level <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/hate-crimes/hate_crimes.csv")
+# killings <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv")
+```
+
+```{r}
+# total_killings <- killings %>% 
+#   group_by(state) %>% 
+#   summarize(total_killings = n()) %>% 
+#   rename(Code = state)
+# 
+# unarmed_killings <- killings %>% 
+#   filter(armed == "No") %>% 
+#   group_by(state) %>% 
+#   summarize(unarmed_killings = n()) %>% 
+#   mutate(ifelse(is.na(unarmed_killings), 0, unarmed_killings)) %>% 
+#   rename(Code = state)
+# 
+# state_abbs <- read_csv("additional_data/data.csv") %>% 
+#   rename(state = State)
+# 
+# populations <- readxl::read_xlsx("additional_data/nst-est2018-01.xlsx", skip = 3) %>% 
+#   slice(6:56) %>% 
+#   rename(state = `...1`) %>% 
+#   rename(population = `2015`) %>% 
+#   select(state, population) %>% 
+#   mutate(state = substring(state, 2))
+# 
+# guns <- read_csv("additional_data/gun_ownership.csv") %>% 
+#   rename(state = State)
+# 
+# crime <- readxl::read_xlsx("additional_data/crime_rates.xlsx", col_names = c("state", "crime_rate")) %>% 
+#   mutate(state = substring(state, 2))
+```
+
+```{r}
+# state_data <- data %>%
+#   left_join(state_abbs, by = "state") %>% 
+#   left_join(populations, by = "state") %>% 
+#   left_join(total_killings, by = "Code") %>% 
+#   left_join(unarmed_killings, by = "Code") %>%  
+#   filter(Code != "DC") %>% 
+#   left_join(guns, by = "state") %>% 
+#   left_join(crime, by = "state") %>% 
+#   mutate(total_killings = ifelse(is.na(total_killings), 0, total_killings),
+#          unarmed_killings = ifelse(is.na(unarmed_killings), 0, unarmed_killings)) %>% 
+#   mutate(total_per_100k = (total_killings/population)*100000,
+#          unarmed_per_100k = (unarmed_killings/population)*100000)
+# 
+# summary(lm(unarmed_per_100k ~ median_household_income + share_unemployed_seasonal + share_population_in_metro_areas + share_population_with_high_school_degree + share_non_citizen + share_white_poverty + gini_index + share_non_white*crime_rate + share_voters_voted_trump + gunOwnership, data = state_data))
+# 
+# summary(lm(crime_rate ~ share_non_white, data = state_data))
+```
+
+
+

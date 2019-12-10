@@ -1,0 +1,173 @@
+---
+title: "Hell and High Water: Poverty and Disproportionate Mortality by the Forces of Nature"
+author: "Jack Luby"
+output: pdf_document
+header-includes:
+   - \usepackage{float}
+   - \usepackage{lipsum}
+bibliography: bibliography.bib
+abstract: "This paper demonstrates that the poorest communities of the United States are most acutely at risk of mortality by severe climate and weather (i.e. heat exposure, cold exposure, storms and flooding, lightning strikes, earthquakes, tornadoes, etc.). Using county-level panel data, mortality by the forces of nature is shown to be significantly negatively correlated with average wealth. This may be an additional means by which climate change disadvantages and endangers impoverished US communities. Moreover, this effect is demonstrative of a significant externality of laissez-faire climate regulation within the United States."
+---
+
+\begin{center}
+\textbf{Introduction}
+\end{center}
+
+For many communities, economic inequality is a matter of life and death. The flip side of each billionaire on a yacht, or each $150,000 banana duct taped to a wall, is a family without access to sufficient food, water, or medical care. In nations like the United States, where "safety nets" for the poor are scarce, being on the wrong end of economic inequality can mean much more than a paucity of weekend yacht trips. It could mean the loss of life. 
+
+At a time of unprecedented change in global climate, communities around the world face increased risk of drought, famine, heat wave, flooding, and more. Though these "forces of nature" act largely at random within regional biome, those individuals who most lack the resources to survive might be placed at undue and unequal peril. I propose that an underconsidered consequence of poverty is heightened vulnerability to cataclysmic forces of nature. Through a panel regression of wealth on mortality by forces of nature, this paper seeks to demonstrate that climate disasters cause significantly greater rates of mortality in American communities of low wealth. As a result, despite common perception, the burdens of climate disaster are not borne homogenously within region. The distributional effects of climate change, and the policies needed to rectify its inequity, may require further examination within the American policy regime.
+
+\begin{center}
+\textbf{The Distributional Inequity of Environmental Externalities}
+\end{center}
+
+A common theme of the existing environmental economics literature is that environmental externalities afflict economic strata heterogeneously. For several reasons, the world's poorest communities tend to bear the starkest burden of irresponsible environmental policy. Both government and corporate entities are likely to find their environmentally detrimental operations in regions of poverty, both due to lower cost and limited resistance from their economically disempowered inhabitants. As a result, these communities tend to be the first to be burdened with residential landfills (@Taylor). They tend to find themselves most acutely afflicted by air pollution (@Perlin). And even the water on which they rely may cause them harm (@Wescoat). Extractive entities established in impoverished communities, therefore, commit undue harm to them simply because those communities lack the economic capacity to resist.
+
+The externalities of these pollutants can be significant, and their effects can last a lifetime. Each of these pollutants imposes significant health-cost externalities on regional inhabitants, while lowering their quality of life (@Brandt). Inhabitants of these, poor, polluted communities are more likely to develop lifelong respiratory diseases and have their development stunted by poorly managed water supplies. A projected 1.2 billion global working days were lost due to air pollution related causes in 2016 alone. The OECD even projects that 3 million people died prematurely due to air pollution in 2010 (Notably, the economic value of an American life is projected to be in the range of 5 to 12 million dollars) (@OECD, @Viscusi). Importantly, however, the brunt of these burdens is not borne by its polluters who, using their superior economic means, spatially separate themselves from the victims of their pollution. This phenomenon is quite apparently unjust, as well as economically inefficient. As such, it has been addressed in a number of ways (i.e. Pigouvian taxation) throughout American and international legislative history (@Henderson).
+
+\begin{center}
+\textbf{Climate Change and Global Inequality}
+\end{center}
+
+Importantly, carbon differs from each of the pollutants discussed above. Whereas air, water, or physical polluters have the ability to spatially separate themselves from the damages of their pollution, climate change acts regionally. Within a given region, a dangerous climate event is likely to touch every acre of land near uniformly, and certainly without regard to its inhabitants' economic means. In at-risk regions, both rich and poor are likely to suffer when catastrophic climate events occur. Traditionally, these events are understod to most strikingly harm impoverished nations. It is sensible that sub-saharan African nations will suffer under oppressive global warming, and that Asian nations like Bangladesh will bear a greater burden from an augmented monsoon season (@Roberts). 
+
+It is through this lens that climate change has traditionally been understood to magnify global inequality. The literature on this topic is extensive, and the general perspective robust. Climate change is likely to cause great harm to agriculturally dependent nations around the world. Over time, it is believed that challenges to these nations' traditional means of survival will cause increased rates of malnutrition and disease, further disadvantaging already struggling nations (@McMichael). In this context, it has been reasonable to rationalize climate inaction by wealthy nations like the United States and Great Britain, who might be seen as economic beneficiaries of carbon emission's productivity without suffering significantly from its consequences (@Roberts). Those public officials who ignore climate change, in this purview, might simply be putting their "nation first."
+
+\begin{center}
+\textbf{Climate Change and American Inequality}
+\end{center}
+
+Existing literature, however, is suggestive of possible within-nation inequality of climate change outcomes. Although wealthy nations are likely to suffer less from drought-driven scarcity and subsequent famine, the poorest citizens of wealthy nations are still likely to face the more immediate risks of climate catastrophe. Many Americans lack the means to pay for sufficient air conditioning and heat, and consequently the means to protect themselves from temperature-related risk factors (@Rector). In the case of hurricane or earthquake, impoverished communities face severe risks due to faulty home infrastructures and limited ability to flee (@Hurricane). And most simply, poor Americans just lack access to sufficient medical care in times of catastrophic need (@Disaster).
+
+In the models below, I demonstrate that poverty is significantly associated with mortality by forces of nature \textit{within} region. Climate disasters significantly disadvantage the most at-risk communities of the United States. This effect calls into question the "US first" view of climate inaction, and suggests that failure to account for the dangers of climate change might inequitably disadvantage the poorest American communities.
+
+\begin{center}
+\textbf{Data}
+\end{center}
+
+County-level mortality data for the years 2010 and 2014 was obtained from the Institute for Health Metrics and Evaluation, an independent health research center at the University of Washington in Seattle, WA. This data is publicly available on Kaggle at {https://www.kaggle.com/IHME/us-countylevel-mortality}. The dataset contains age-standardized mortality rates grouped by mutually exclusive cause of death. Only deaths via "Forces of nature," indicating natural disaster, weather, and temperature related mortality, were considered in this analysis. 
+
+County-level wage data for the years 2010 and 2014 was obtained from the U.S. Internal Revenue Service's Statistics of Income (SOI) program, which publicly disseminates tax data at several levels of specificity. This data is publicly available at {https://www.irs.gov/statistics/soi-tax-stats-county-data}. At the county level, average wage was determined by dividing total county wage amount by the number of tax returns with a listed wage. This variable is expected serve as a viable proxy for county-level wealth. 
+
+Finally, housing density statistics for the year 2010 were pulled from the United States Census Bureau's American FactFinder tool. This data is publicly available at {https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?src=bkmk}. This variable was used as a means of controlling for county population density and potentially disproportionate risks faced by rural communities compared to urban ones. 
+
+\clearpage
+\begin{center}
+\textbf{Models}
+\end{center}
+
+The models explored herein attempt to establish the relationship between county income level and its mortality rate due to forces of nature. This is done to explore the unequal effects of climate disaster within geographic region. Several iterations of these models are presented to ensure robustness. Model results are presented below [Table 1].
+
+```{r, echo = FALSE, results = "hide", warning = FALSE, message = FALSE}
+library(tidyverse)
+library(plm)
+library(lfe)
+library(stargazer)
+
+table <- read_rds("data/full_table.rds") %>% 
+  select(mortality, wages_per_return, housing_density, FIPS, STATE, year, A00200, N00200)
+
+no_effects <- felm(log(mortality) ~ wages_per_return + housing_density | 0 | 0 | FIPS, data=table, weights=table$N00200)
+
+year_effects <- felm(log(mortality) ~ wages_per_return + housing_density | factor(year) | 0 | FIPS, data=table, weights=table$N00200)
+
+state_effects <- felm(log(mortality) ~ wages_per_return | factor(year) + factor(STATE) | 0 | FIPS, data=table, weights=table$N00200)
+```
+
+```{r, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
+stargazer(no_effects, year_effects, state_effects, 
+          header = FALSE, 
+          omit.stat = c("adj.rsq", "f", "ser", "n"), 
+          dep.var.labels = "Log of Mortality by Forces of Nature", 
+          covariate.labels = c("Mean Wage", "Housing Density"), 
+          model.names = FALSE, 
+          add.lines = list(c("Effects", "Random", "Fixed", "Fixed"),
+                           c("Fixed Factors", "N/A", "Year", "Year + State")), 
+          table.layout ="-d#-t-a-s=n",
+          table.placement = "H")
+```
+
+```{r, echo = FALSE, warning = FALSE}
+library(usmap)
+mort_map <- table %>% 
+  filter(year == 2014) %>% 
+  select(FIPS, mortality) %>% 
+  rename(fips = FIPS) %>% 
+  mutate(fips = ifelse(nchar(fips) == 4, paste0(0, fips), fips)) %>% 
+  mutate(mortality = log(mortality))
+
+mort_2014_map <- plot_usmap(data = mort_map, values = "mortality", regions = "counties", size = .1) + 
+  scale_fill_continuous(name = "Log Mortality",low= "white", high= "black") + 
+  labs(title = "Logged Mortality Rate due to Natural Forces, by US County (2014)") + 
+  theme(panel.background = element_rect(color = "black", fill = "lightblue"), legend.position = "right")
+
+wage_map <- table %>% 
+  filter(year == 2014) %>% 
+  select(FIPS, wages_per_return) %>% 
+  rename(fips = FIPS) %>% 
+  mutate(fips = ifelse(nchar(fips) == 4, paste0(0, fips), fips)) %>% 
+  mutate(wages_per_return = log(wages_per_return))
+
+wages_2014_map <- plot_usmap(data = wage_map, values= "wages_per_return", regions = "counties", size = .1) +
+  scale_fill_continuous(name = "Log Wages", low= "white", high= "black") + 
+  labs(title = "Logged Mean Wage, by US County (2014)") + 
+  theme(panel.background = element_rect(color = "black", fill = "lightblue"), legend.position = "right")
+
+scatter <- ggplot(table, aes(x=wages_per_return, y = log(mortality), color = log(housing_density))) +
+  geom_point() + 
+  labs(color = "Log Housing Density", x = "Mean Wage", y = "Log Mortality Rate", 
+       title = "Wages Significantly Associated with Mortality to Natural Forces", 
+       subtitle = "Housing density shows little clustering with either factor")
+```
+
+
+\begin{center}
+{\footnotesize Model (1) makes use of a random effects model. This means that no correction is made for the effects of time or geography. This could be considered the simplest form of panel model. Conversely, models (2) and (3) make use of fixed effects, controlling for factors within county units. Model (2) makes use of a year fixed effect, essentially controlling for time trends across units, while model (3) additionally makes use of state fixed effects, which would be expected to control for climate mortality trends within a given geography. This final model seems to be a robust demonstration of the effect of wealth on mortality rate, a significantly negative one.\par}
+\end{center}
+
+\begin{center}
+\textbf{Results}
+\end{center}
+
+These models demonstrate a significant negative relationship between county income and mortality by forces of nature. These effects may be due to poor communities (1) lacking heating and cooling during severe temperature episodes, (2) inhabiting cheap, unsafe infrastructure, exposed to increased risk in times of severe weather, and (3) lack of access to care in times of need. Although natural forces may sometimes be thought to affect all economic strata randomly and equitably, it is apparent that poor communities are most harmed by severe climate.
+
+These models suggest that climate change outcomes are not only inequitable across nations, but within the United States as well. Whereas wealthy nations' elite might be able to escape from the most severe consequences of climate change, the poorest members of the populace are put at increased risk of injury or mortality via climate catastrophe. In this way, climate change inequality might more closely resemble other forms of inequitable pollution than previously thought. Inaction by national governments on the issue of climate change may not necessarily be putting their nation first, but rather leaving the poorest members of their citizenry behind.
+
+These effects are further visualized in the plot below. A negative correlation between wealth and mortality by forces of nature is visible. Further, as indicated by the model fits, housing densities do not appear to apparently cluster along either axis. This indicates that the negative correlation is unlikely to be due to a mortality differential between urban and rural geographies. The geographic distributions of mean wages and mortality by natural forces are further visualized in the appendix. 
+
+```{r, warning = FALSE, echo = FALSE}
+scatter
+```
+
+\begin{center}
+\textbf{Discussion}
+\end{center}
+
+Although perhaps to a lesser extent than some other nations, climate change has already and is expected to profoundly alter the landscape of the United States. 2000-2010 saw more record temperature highs \textit{and} lows than any prior decade in recorded history. Further, it represented the most severe 10-year span of hurricanes and extreme precipitation than ever seen before (@severe). Projections for the future are even more dire. Temperatures in the already suffocating Southwest United States are projected to rise by 6 degrees celsius by 2100. Further, the consecutive dry-day length in the region is expected to increase by approximately 10 percent. In the Southeast United States, a region ravaged by hurricane damage over the last two decades, maximum 1-day precipitation is expected to increase by up to 22 percent by the end of the century (@severe). 
+
+As described in the models above, the effects of these climate changes are expected to be most strikingly felt in the nation's most destitute communities. In the face of never-before-seen climate catastrophes, impoverished communities in the bayous of Louisiana will be devastated. Reservations in the Dakotas will bear the brunt of freezes deeper than they've ever felt. All the while, the Westchester Countys, Orange Countys, and, importantly, Montgomery Countys of the nation will remain relatively unscathed. 
+
+Although the unequal effects of climate change are often considered on the global scale, the same forces have been shown to be significant at the sub-regional level within the United States. In a global inequality perspective of climate change, coal subsidies may be justified at the expense of small countries half-way around the world. But in the analysis presented here, it becomes apparent that carbon emission does not produce uniform benefit for all citizens of the United States. Climate change is projected to magnify disadvantage in the most economically disadvataged American communities.  
+
+\clearpage
+\begin{center}
+\textbf{Conclusion}
+\end{center}
+
+The analysis presented herein has shown that impoverished American communities are at significantly increased risk of mortality by the forces of nature relative to their wealthy peers. In the United States, laissez faire climate policies disproportionately disadvantage impoverished communities. Wealthy corporate entities are unlikely to internalize the externalities of carbon without significant legislation. More concerningly, wealthy lawmakers do not bear the burden of climate change in the same way that their constituents might. The effects explored in this paper demonstrate a key incentive mismatch which is likely to result in carbon emission beyond that which is economically efficient. The inequality effects of climate legislation should be better understood and represented in the formulation of future climate policy.
+
+\clearpage
+\begin{center}
+\textbf{Index}
+\end{center}
+
+```{r, echo = FALSE, warning = FALSE}
+mort_2014_map
+wages_2014_map
+```
+
+
+\clearpage
+\begin{center}
+\textbf{Works Cited}
+\end{center}
